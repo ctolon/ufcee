@@ -10,7 +10,7 @@ Backlog and status board for UCEE Proxy work. Maintained by `L1-memory-coordinat
 | T-2026-0002 | M1: adapter contract trait + harness | L2-adapter-custom-contract | done | T-2026-0001 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0003 | M1: first adapter (docling) | L2-adapter-docling | done | T-2026-0002 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0004 | M2: axum HTTP server + Docling facade | L2-api-designer | done | T-2026-0003 | 2026-05-11 | 2026-05-11 | – |
-| T-2026-0005 | M3: routing engine (MIME + ext + facade selector) | L2-routing-engine | open | T-2026-0004 | 2026-05-11 | 2026-05-11 | – |
+| T-2026-0005 | M3: routing engine (MIME + ext + facade selector) | L2-routing-engine | done | T-2026-0004 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0006 | M4: kreuzberg adapter + response normalizer | L2-adapter-kreuzberg | open | T-2026-0005 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0007 | M5: PyO3 bridge + Python SDK | L2-pyo3-bridge | open | T-2026-0006 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0008 | M6: observability (logs + metrics + OTel) | L4-observability-engineer | open | T-2026-0004 | 2026-05-11 | 2026-05-11 | – |
@@ -28,6 +28,7 @@ Backlog and status board for UCEE Proxy work. Maintained by `L1-memory-coordinat
 | 2026-05-11T13:40:00Z | T-2026-0002 | open | done | M1 trait + harness (ADR-0003); contract suite exercises name regex, contract_version, capabilities, empty-body, health round-trip |
 | 2026-05-11T13:40:00Z | T-2026-0003 | open | done | M1 ucee-adapter-docling with wiremock-based contract tests (6/6 passing) |
 | 2026-05-11T14:05:00Z | T-2026-0004 | open | done | M2 axum server + DynAdapter + Registry + Docling facade (ADR-0004); 8/8 integration tests passing including e2e PDF routing |
+| 2026-05-11T14:30:00Z | T-2026-0005 | open | done | M3 routing engine (ADR-0005); 5-step precedence chain (header > config > MIME > ext > default); 17 unit + 4 property + 11 integration tests cover all 5 paths |
 
 ## Parking lot (unscheduled)
 

@@ -1,30 +1,22 @@
 //! Engine selection for UCEE Proxy.
 //!
-//! Precedence: explicit header > config rule > MIME magic > extension > default.
-//! See `docs/architecture/05-routing-precedence.md` on the `docs` branch.
+//! Implements the routing precedence chain:
+//!
+//! 1. Explicit header (`X-UCEE-Engine`)
+//! 2. Config rule (placeholder until M7 config loader; not yet exercised)
+//! 3. MIME magic (content sniffing via `infer`)
+//! 4. File extension (looked up in [`mime_from_extension`])
+//! 5. Default engine
+//!
+//! First match wins. See `docs/architecture/05-routing-precedence.md` on the
+//! `docs` branch and ADR-0005.
 
-use ucee_core::Error;
+pub mod error;
+pub mod ext;
+pub mod mime_sniff;
+pub mod router;
 
-/// Decision returned by [`select_engine`].
-#[derive(Debug, Clone)]
-pub struct RoutingDecision {
-    pub engine_name: String,
-    pub routing_path: RoutingPath,
-}
-
-/// Which precedence rule produced the routing decision.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum RoutingPath {
-    Header,
-    Config,
-    Mime,
-    Ext,
-    Default,
-}
-
-/// Select an engine for the given request signals.
-///
-/// M0 placeholder; concrete implementation lands at M3 per ADR-0004.
-pub fn select_engine(_header_hint: Option<&str>) -> Result<RoutingDecision, Error> {
-    Err(Error::Routing("not yet implemented".into()))
-}
+pub use error::RoutingError;
+pub use ext::mime_from_extension;
+pub use mime_sniff::sniff_mime;
+pub use router::{Router, RouterBuilder, RoutingDecision, RoutingPath, RoutingSignals};
