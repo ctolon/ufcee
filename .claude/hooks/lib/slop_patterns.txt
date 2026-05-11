@@ -1,0 +1,48 @@
+# UCEE slop pattern source-of-truth.
+# Format: <PCRE-pattern>\t<BLOCK|WARN>\t<short-desc>
+# Used by:
+#   - .claude/hooks/scripts/no_ai_slop.sh   (PreToolUse Write|Edit, hard block)
+#   - .claude/hooks/scripts/post_slop_scan.sh (PostToolUse Write|Edit, warn-only)
+#   - .claude/hooks/scripts/guard_commit_message.sh (PreToolUse Bash git commit)
+# Files whose path matches the in-script allowlist are EXEMPT from scanning
+# so that this very file (and other documentation of the banned patterns)
+# can quote them verbatim.
+
+# --- Emoji ---
+[\x{1F300}-\x{1FAFF}]	BLOCK	emoji-pictographs
+[\x{2600}-\x{27BF}]	BLOCK	emoji-misc-symbols
+🤖	BLOCK	robot-emoji
+
+# --- AI self-reference ---
+Co-Authored-By:\s*Claude	BLOCK	ai-coauthor
+Generated with Claude Code	BLOCK	ai-generated-tag
+claude\.com/claude-code	BLOCK	ai-url
+\bAs an AI\b	BLOCK	ai-self-ref
+\bas a language model\b	BLOCK	ai-llm-self-ref
+\bAI-generated\b	BLOCK	ai-generated-adj
+
+# --- Slop phrases ---
+\bdelve into\b	BLOCK	slop-delve
+\btapestry\b	BLOCK	slop-tapestry
+\bin the realm of\b	BLOCK	slop-realm
+\bit'?s worth noting\b	BLOCK	slop-noting
+\bembark on\b	BLOCK	slop-embark
+\bseamlessly\b	BLOCK	slop-seamless
+\bunleash\b	BLOCK	slop-unleash
+\bcutting[\s-]?edge\b	BLOCK	slop-cuttingedge
+\bgame[\s-]?changer\b	BLOCK	slop-gamechanger
+\brevolutionize\b	BLOCK	slop-revolutionize
+\bsynergy\b	BLOCK	slop-synergy
+\bparadigm shift\b	BLOCK	slop-paradigm
+\brich tapestry\b	BLOCK	slop-richtapestry
+\bnavigate the complexities\b	BLOCK	slop-navigate
+\bat the end of the day\b	BLOCK	slop-endofday
+\bdive deep\b	BLOCK	slop-divedeep
+\bbustling\b	BLOCK	slop-bustling
+\btestament to\b	BLOCK	slop-testament
+
+# --- Soft warnings (do not block) ---
+\bleverage\b	WARN	slop-leverage
+\brobust\b	WARN	marketing-robust
+\bpowerful\b	WARN	marketing-powerful
+\belegant\b	WARN	marketing-elegant

@@ -1,0 +1,57 @@
+# Rust
+target/
+**/*.rs.bk
+# Cargo.lock is committed (per workspace convention for the binary)
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.tox/
+.coverage
+htmlcov/
+
+# Maturin
+target/wheels/
+
+# Claude Code per-user / ephemeral state
+.claude/settings.local.json
+.claude/agent-memory/CHECKPOINT.md
+.claude/agent-memory/LOCKS/*
+!.claude/agent-memory/LOCKS/.gitkeep
+.claude/agent-memory/sessions/*
+!.claude/agent-memory/sessions/.gitkeep
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Coverage and profiling
+coverage/
+lcov.info
+*.profraw
+flamegraph.svg
+perf.data*
+
+# OS / editor
+.DS_Store
+*.swp
+*.tmp
+*~
+.idea/
+*.iml
+
+# Build / dist
+*.tar.gz
+*.tar.bz2
+*.zip
