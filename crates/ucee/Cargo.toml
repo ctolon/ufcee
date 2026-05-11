@@ -1,0 +1,23 @@
+[package]
+name = "ucee"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Unified Context Extraction Engine Proxy — binary entrypoint"
+
+[[bin]]
+name = "ucee"
+path = "src/main.rs"
+
+[dependencies]
+ucee-core.workspace = true
+ucee-config.workspace = true
+anyhow.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[lints]
+workspace = true

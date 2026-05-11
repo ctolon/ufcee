@@ -1,0 +1,89 @@
+name: Meta-config
+
+on:
+  pull_request:
+    paths:
+      - '.claude/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+  workflow_dispatch:
+
+jobs:
+  inventory:
+    name: file inventory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install jq + ripgrep
+        run: sudo apt-get install -y jq ripgrep
+      - name: Count agents
+        run: |
+          count=$(find .claude/agents -name '*.md' | wc -l)
+          echo "agents: $count"
+          test "$count" -eq 52
+      - name: Count skills
+        run: |
+          count=$(find .claude/skills -name 'SKILL.md' | wc -l)
+          echo "skills: $count"
+          test "$count" -eq 17
+      - name: Count hook scripts
+        run: |
+          count=$(find .claude/hooks/scripts -name '*.sh' | wc -l)
+          echo "scripts: $count"
+          test "$count" -eq 10
+      - name: Validate settings.json parses
+        run: jq -e . .claude/settings.json
+      - name: Syntax-check all hook scripts
+        run: bash -n .claude/hooks/scripts/*.sh
+
+  hook-negative-tests:
+    name: hook negative tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install jq + ripgrep
+        run: sudo apt-get install -y jq ripgrep
+      - name: Test no_ai_slop denies emoji
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}
+        run: |
+          set +e
+          out=$(printf '{"tool_name":"Write","tool_input":{"file_path":"'"$GITHUB_WORKSPACE"'/crates/foo/src/lib.rs","content":"emoji here 🤖 done"}}' | bash .claude/hooks/scripts/no_ai_slop.sh)
+          ec=$?
+          set -e
+          test "$ec" -eq 2
+          echo "$out" | jq -e '.hookSpecificOutput.permissionDecision == "deny"'
+      - name: Test no_ai_slop denies slop phrase
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}
+        run: |
+          set +e
+          out=$(printf '{"tool_name":"Write","tool_input":{"file_path":"'"$GITHUB_WORKSPACE"'/crates/foo/src/lib.rs","content":"let us delve into the code"}}' | bash .claude/hooks/scripts/no_ai_slop.sh)
+          ec=$?
+          set -e
+          test "$ec" -eq 2
+      - name: Test no_ai_slop allows clean content
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}
+        run: |
+          out=$(printf '{"tool_name":"Write","tool_input":{"file_path":"'"$GITHUB_WORKSPACE"'/crates/foo/src/lib.rs","content":"fn main() {}"}}' | bash .claude/hooks/scripts/no_ai_slop.sh)
+          ec=$?
+          test "$ec" -eq 0
+      - name: Test guard_commit_message denies AI ref
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}
+        run: |
+          set +e
+          out=$(printf '{"tool_name":"Bash","tool_input":{"command":"git commit -m \"feat: x\\n\\nCo-Authored-By: Claude\""}}' | bash .claude/hooks/scripts/guard_commit_message.sh)
+          ec=$?
+          set -e
+          test "$ec" -eq 2
+      - name: Test guard_bash denies rm -rf root
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}
+        run: |
+          set +e
+          out=$(printf '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' | bash .claude/hooks/scripts/guard_bash.sh)
+          ec=$?
+          set -e
+          test "$ec" -eq 2

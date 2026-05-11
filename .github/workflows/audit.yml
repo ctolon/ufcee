@@ -1,0 +1,41 @@
+name: Security audit
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  push:
+    paths:
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
+      - 'deny.toml'
+      - '.github/workflows/audit.yml'
+  pull_request:
+    paths:
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
+      - 'deny.toml'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  cargo-audit:
+    name: cargo audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo install cargo-audit --locked
+      - run: cargo audit --deny warnings
+
+  cargo-deny:
+    name: cargo deny
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo install cargo-deny --locked
+      - run: cargo deny check

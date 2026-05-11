@@ -1,0 +1,17 @@
+[package]
+name = "ucee-router"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Engine selection: MIME router, ext router, facade selector"
+
+[dependencies]
+ucee-core.workspace = true
+mime.workspace = true
+infer.workspace = true
+serde.workspace = true
+
+[lints]
+workspace = true

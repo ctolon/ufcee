@@ -1,0 +1,15 @@
+[package]
+name = "ucee-adapters-fixtures"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Shared adapter test fixtures and the contract test harness"
+
+[dependencies]
+ucee-core.workspace = true
+bytes.workspace = true
+
+[lints]
+workspace = true

@@ -32,6 +32,7 @@ case "$rel_path" in
   .claude/skills/cleanup-ai-slop/*) exit 0 ;;
   AGENTS.md) exit 0 ;;
   CLAUDE.md) exit 0 ;;
+  .github/workflows/meta-config.yml) exit 0 ;;
 esac
 
 while IFS=$'\t' read -r pattern severity desc; do

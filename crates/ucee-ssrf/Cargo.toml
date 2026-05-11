@@ -1,0 +1,17 @@
+[package]
+name = "ucee-ssrf"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "SSRF validator: CIDR allow/deny, DNS pin, redirect policy"
+
+[dependencies]
+ucee-core.workspace = true
+ipnet.workspace = true
+hickory-resolver.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

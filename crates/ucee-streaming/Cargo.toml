@@ -1,0 +1,17 @@
+[package]
+name = "ucee-streaming"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Bounded spool with O_TMPFILE fall-through for inbound bodies"
+
+[dependencies]
+ucee-core.workspace = true
+bytes.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

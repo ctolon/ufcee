@@ -1,0 +1,33 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ucee"
+version = "0.0.1"
+description = "Python SDK for UCEE Proxy"
+requires-python = ">=3.12"
+authors = [{ name = "Cevat Batuhan Tolon", email = "tallon1997r@gmail.com" }]
+readme = "README.md"
+keywords = ["proxy", "document-extraction", "docling", "kreuzberg", "unstructured"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Rust",
+]
+
+# Wired up at milestone M5 when ucee-py crate + python/ucee package land.
+[tool.maturin]
+features = []
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "PT", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]

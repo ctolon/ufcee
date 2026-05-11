@@ -1,0 +1,16 @@
+[package]
+name = "ucee-resilience"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Circuit breaker + token-bucket rate limiter"
+
+[dependencies]
+ucee-core.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

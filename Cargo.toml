@@ -1,0 +1,81 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+authors = ["Cevat Batuhan Tolon <tallon1997r@gmail.com>"]
+repository = "https://github.com/ctolon/ufcee"
+homepage = "https://github.com/ctolon/ufcee"
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1.45", features = ["full"] }
+tokio-util = "0.7"
+
+# HTTP server
+axum = "0.8"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "request-id"] }
+
+# HTTP client
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+rustls = "0.23"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+figment = { version = "0.10", features = ["yaml", "env"] }
+
+# Errors
+thiserror = "2"
+anyhow = "1"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+metrics = "0.24"
+metrics-exporter-prometheus = "0.17"
+opentelemetry = "0.30"
+opentelemetry-otlp = { version = "0.30", features = ["http-proto", "reqwest"] }
+
+# MIME + content
+mime = "0.3"
+infer = "0.19"
+bytes = "1"
+
+# Networking
+hickory-resolver = "0.25"
+ipnet = "2.11"
+
+# Crypto
+sha2 = "0.10"
+blake3 = "1.5"
+
+# Internal crates (added as they land)
+ucee-core = { path = "crates/ucee-core" }
+ucee-config = { path = "crates/ucee-config" }
+ucee-router = { path = "crates/ucee-router" }
+ucee-server = { path = "crates/ucee-server" }
+ucee-ssrf = { path = "crates/ucee-ssrf" }
+ucee-streaming = { path = "crates/ucee-streaming" }
+ucee-resilience = { path = "crates/ucee-resilience" }
+ucee-observability = { path = "crates/ucee-observability" }
+ucee-adapters-fixtures = { path = "crates/ucee-adapters-fixtures" }
+
+# Dev
+criterion = { version = "0.7", features = ["html_reports"] }
+proptest = "1.7"
+testcontainers = "0.27"
+insta = "1.43"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "warn"

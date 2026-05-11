@@ -1,0 +1,18 @@
+[package]
+name = "ucee-core"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Core types and traits shared across UCEE Proxy crates"
+
+[dependencies]
+thiserror.workspace = true
+serde.workspace = true
+mime.workspace = true
+bytes.workspace = true
+
+[lints]
+workspace = true

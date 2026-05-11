@@ -1,0 +1,24 @@
+[package]
+name = "ucee-server"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "axum HTTP server for UCEE Proxy"
+
+[dependencies]
+ucee-core.workspace = true
+ucee-router.workspace = true
+ucee-resilience.workspace = true
+ucee-ssrf.workspace = true
+ucee-streaming.workspace = true
+ucee-observability.workspace = true
+axum.workspace = true
+tower.workspace = true
+tower-http.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[lints]
+workspace = true
