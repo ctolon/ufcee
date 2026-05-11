@@ -89,3 +89,47 @@ pub trait Adapter: Send + Sync + 'static {
     /// Health check.
     fn health(&self) -> impl Future<Output = Result<HealthStatus, crate::Error>> + Send;
 }
+
+/// Object-safe variant of [`Adapter`] for use in dynamic registries.
+///
+/// Auto-implemented for every type that implements [`Adapter`]. The
+/// returned futures are boxed because native `async fn in traits` is not
+/// `dyn`-safe. The Box::pin cost is paid once per call, which is
+/// negligible compared to the network IO it precedes.
+pub trait DynAdapter: Send + Sync + 'static {
+    fn name(&self) -> &'static str;
+    fn capabilities(&self) -> Capabilities;
+    fn contract_version(&self) -> u32;
+    fn convert<'a>(
+        &'a self,
+        req: ConvertRequest,
+    ) -> std::pin::Pin<Box<dyn Future<Output = Result<ConvertResponse, crate::Error>> + Send + 'a>>;
+    fn health<'a>(
+        &'a self,
+    ) -> std::pin::Pin<Box<dyn Future<Output = Result<HealthStatus, crate::Error>> + Send + 'a>>;
+}
+
+impl<A: Adapter> DynAdapter for A {
+    fn name(&self) -> &'static str {
+        <A as Adapter>::name(self)
+    }
+    fn capabilities(&self) -> Capabilities {
+        <A as Adapter>::capabilities(self)
+    }
+    fn contract_version(&self) -> u32 {
+        <A as Adapter>::contract_version(self)
+    }
+    fn convert<'a>(
+        &'a self,
+        req: ConvertRequest,
+    ) -> std::pin::Pin<Box<dyn Future<Output = Result<ConvertResponse, crate::Error>> + Send + 'a>>
+    {
+        Box::pin(<A as Adapter>::convert(self, req))
+    }
+    fn health<'a>(
+        &'a self,
+    ) -> std::pin::Pin<Box<dyn Future<Output = Result<HealthStatus, crate::Error>> + Send + 'a>>
+    {
+        Box::pin(<A as Adapter>::health(self))
+    }
+}

@@ -6,9 +6,11 @@
 
 pub mod adapter;
 pub mod error;
+pub mod registry;
 
 pub use adapter::{
     Adapter, CURRENT_CONTRACT_VERSION, Capabilities, CompatType, ConvertRequest, ConvertResponse,
-    HealthStatus,
+    DynAdapter, HealthStatus,
 };
 pub use error::Error;
+pub use registry::Registry;

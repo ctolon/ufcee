@@ -4,11 +4,11 @@ _Rewritten by `L1-memory-coordinator` whenever active state changes. The tail of
 file is injected into Claude's context by `inject_coordination.sh` at every
 UserPromptSubmit._
 
-Last updated: 2026-05-11 (post-M1)
+Last updated: 2026-05-11 (post-M2)
 
 ## Active agents
 
-(none — M0 and M1 landed; ready for next sprint)
+(none — M0, M1, M2 landed; ready for next sprint)
 
 ## Active locks
 
@@ -19,6 +19,7 @@ Last updated: 2026-05-11 (post-M1)
 - 2026-05-11 — ADR-0001 accepted: Claude Code meta-configuration plan adopted.
 - 2026-05-11 — ADR-0002 accepted: Rust workspace + 10-crate layout for M0.
 - 2026-05-11 — ADR-0003 accepted: Adapter trait surface + `contract_version` policy for M1.
+- 2026-05-11 — ADR-0004 accepted: HTTP server architecture (axum + Registry + DynAdapter) for M2.
 
 ## Pending questions
 
@@ -26,8 +27,7 @@ Last updated: 2026-05-11 (post-M1)
 
 ## Next-up tasks
 
-See `TASKS.md`. M0 (T-2026-0001) and M1 (T-2026-0002, T-2026-0003) done.
-Next-up is **T-2026-0004** (M2: axum HTTP server + Docling facade), owner `L2-api-designer`.
+See `TASKS.md`. M0–M2 done. Next-up is **T-2026-0005** (M3: routing engine — MIME + ext + facade selector with full precedence chain), owner `L2-routing-engine`.
 
 ## Landed milestones
 
@@ -35,4 +35,5 @@ Next-up is **T-2026-0004** (M2: axum HTTP server + Docling facade), owner `L2-ap
 |---|---|---|
 | meta-config bootstrap | `e28d902` | All `.claude/` infra + AGENTS.md + CLAUDE.md (main); diagrams + roadmap (docs); helm skeleton (helm) |
 | M0 | `471c831` | Workspace + 10 crate skeletons + CI + deny + ADR-0002 |
-| M1 | _(next commit)_ | Adapter trait + harness + docling adapter + ADR-0003 |
+| M1 | `932e0e7` | Adapter trait + harness + docling adapter + ADR-0003 |
+| M2 | _(next commit)_ | axum server + Registry + DynAdapter + Docling facade + ADR-0004 |

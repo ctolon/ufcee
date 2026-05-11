@@ -1,11 +1,26 @@
 //! UCEE Proxy entry point.
 //!
-//! Loads configuration, sets up observability, and starts the HTTP server.
-//! M0 placeholder: initializes tracing, loads the (currently empty) config,
-//! prints version, and exits. The HTTP server is wired in at M2.
+//! Loads configuration, sets up structured-JSON observability, builds the
+//! adapter registry, and serves the HTTP app via axum.
+//!
+//! Environment knobs (M2 placeholder; superseded by the YAML/env config
+//! loader at M3):
+//!
+//! - `UCEE_BIND` — `host:port` to listen on (default `0.0.0.0:3000`).
+//! - `UCEE_DOCLING_URL` — base URL of the docling upstream
+//!   (default `http://localhost:8080`).
+//! - `RUST_LOG` — tracing-subscriber env-filter (default `info`).
 
-use anyhow::Result;
+use std::env;
+
+use anyhow::{Context, Result};
+use ucee_adapter_docling::DoclingAdapter;
 use ucee_config::Config;
+use ucee_core::Registry;
+use ucee_server::AppBuilder;
+
+const DEFAULT_BIND: &str = "0.0.0.0:3000";
+const DEFAULT_DOCLING_URL: &str = "http://localhost:8080";
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -17,12 +32,32 @@ async fn main() -> Result<()> {
         .json()
         .init();
 
-    let _config = Config::load()?;
+    let _config = Config::load().context("load config")?;
+
+    let docling_url =
+        env::var("UCEE_DOCLING_URL").unwrap_or_else(|_| DEFAULT_DOCLING_URL.to_string());
+    let docling = DoclingAdapter::new(&docling_url)
+        .map_err(|e| anyhow::anyhow!("docling adapter init: {e}"))?;
+
+    let mut registry = Registry::new();
+    registry
+        .register(docling)
+        .map_err(|e| anyhow::anyhow!("register docling: {e}"))?;
+
+    let bind = env::var("UCEE_BIND").unwrap_or_else(|_| DEFAULT_BIND.to_string());
+    let listener = tokio::net::TcpListener::bind(&bind)
+        .await
+        .with_context(|| format!("bind {bind}"))?;
+    let actual = listener.local_addr().context("local_addr")?;
 
     tracing::info!(
         version = env!("CARGO_PKG_VERSION"),
-        "ucee starting (M0 placeholder; HTTP server lands at M2)"
+        bind = %actual,
+        docling_url = %docling_url,
+        "ucee serving Docling facade"
     );
 
+    let app = AppBuilder::new(registry).build();
+    axum::serve(listener, app).await.context("serve")?;
     Ok(())
 }
