@@ -1,0 +1,29 @@
+[package]
+name = "ucee-adapter-docling"
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Docling adapter for UCEE Proxy"
+
+[package.metadata.ucee]
+contract_version = 1
+
+[dependencies]
+ucee-core.workspace = true
+reqwest = { workspace = true, features = ["json", "multipart"] }
+serde.workspace = true
+serde_json.workspace = true
+url.workspace = true
+thiserror.workspace = true
+bytes.workspace = true
+mime.workspace = true
+
+[dev-dependencies]
+ucee-adapters-fixtures.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+wiremock.workspace = true
+
+[lints]
+workspace = true

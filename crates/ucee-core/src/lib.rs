@@ -8,6 +8,7 @@ pub mod adapter;
 pub mod error;
 
 pub use adapter::{
-    Adapter, Capabilities, CompatType, ConvertRequest, ConvertResponse, HealthStatus,
+    Adapter, CURRENT_CONTRACT_VERSION, Capabilities, CompatType, ConvertRequest, ConvertResponse,
+    HealthStatus,
 };
 pub use error::Error;

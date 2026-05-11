@@ -54,6 +54,10 @@ ipnet = "2.11"
 sha2 = "0.10"
 blake3 = "1.5"
 
+# Regex + URL
+regex = "1"
+url = "2"
+
 # Internal crates (added as they land)
 ucee-core = { path = "crates/ucee-core" }
 ucee-config = { path = "crates/ucee-config" }
@@ -64,12 +68,15 @@ ucee-streaming = { path = "crates/ucee-streaming" }
 ucee-resilience = { path = "crates/ucee-resilience" }
 ucee-observability = { path = "crates/ucee-observability" }
 ucee-adapters-fixtures = { path = "crates/ucee-adapters-fixtures" }
+ucee-adapter-docling = { path = "crates/ucee-adapter-docling" }
 
 # Dev
 criterion = { version = "0.7", features = ["html_reports"] }
 proptest = "1.7"
 testcontainers = "0.27"
 insta = "1.43"
+wiremock = "0.6"
+pretty_assertions = "1"
 
 [workspace.lints.rust]
 unsafe_code = "deny"

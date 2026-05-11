@@ -10,6 +10,12 @@ description = "Shared adapter test fixtures and the contract test harness"
 [dependencies]
 ucee-core.workspace = true
 bytes.workspace = true
+mime.workspace = true
+regex.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+pretty_assertions.workspace = true
 
 [lints]
 workspace = true

@@ -6,9 +6,9 @@ Backlog and status board for UCEE Proxy work. Maintained by `L1-memory-coordinat
 
 | id | title | owner_agent | status | depends_on | created | updated | lock_slug |
 |---|---|---|---|---|---|---|---|
-| T-2026-0001 | M0: bootstrap workspace, base crates, CI skeleton | L2-system-architect | open | – | 2026-05-11 | 2026-05-11 | – |
-| T-2026-0002 | M1: adapter contract trait + harness | L2-adapter-custom-contract | open | T-2026-0001 | 2026-05-11 | 2026-05-11 | – |
-| T-2026-0003 | M1: first adapter (docling) | L2-adapter-docling | open | T-2026-0002 | 2026-05-11 | 2026-05-11 | – |
+| T-2026-0001 | M0: bootstrap workspace, base crates, CI skeleton | L2-system-architect | done | – | 2026-05-11 | 2026-05-11 | – |
+| T-2026-0002 | M1: adapter contract trait + harness | L2-adapter-custom-contract | done | T-2026-0001 | 2026-05-11 | 2026-05-11 | – |
+| T-2026-0003 | M1: first adapter (docling) | L2-adapter-docling | done | T-2026-0002 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0004 | M2: axum HTTP server + Docling facade | L2-api-designer | open | T-2026-0003 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0005 | M3: routing engine (MIME + ext + facade selector) | L2-routing-engine | open | T-2026-0004 | 2026-05-11 | 2026-05-11 | – |
 | T-2026-0006 | M4: kreuzberg adapter + response normalizer | L2-adapter-kreuzberg | open | T-2026-0005 | 2026-05-11 | 2026-05-11 | – |
@@ -24,6 +24,9 @@ Backlog and status board for UCEE Proxy work. Maintained by `L1-memory-coordinat
 | timestamp_utc | task_id | from | to | by |
 |---|---|---|---|---|
 | 2026-05-11T12:30:00Z | T-2026-0001..0012 | – | open | human (initial backlog from ADR-0001) |
+| 2026-05-11T13:25:00Z | T-2026-0001 | open | done | M0 commit `471c831` (workspace + 10 crate skeletons + CI + ADR-0002) |
+| 2026-05-11T13:40:00Z | T-2026-0002 | open | done | M1 trait + harness (ADR-0003); contract suite exercises name regex, contract_version, capabilities, empty-body, health round-trip |
+| 2026-05-11T13:40:00Z | T-2026-0003 | open | done | M1 ucee-adapter-docling with wiremock-based contract tests (6/6 passing) |
 
 ## Parking lot (unscheduled)
 

@@ -51,6 +51,13 @@ pub enum HealthStatus {
     Unhealthy,
 }
 
+/// Current contract version expected by `ucee-core`.
+///
+/// Adapters declare their conformance via [`Adapter::contract_version`].
+/// The registry rejects adapters whose version is lower than this constant.
+/// Bumped when the trait surface changes incompatibly. See ADR-0003.
+pub const CURRENT_CONTRACT_VERSION: u32 = 1;
+
 /// The contract every engine adapter implements.
 ///
 /// The trait is sealed by convention to the workspace via the
@@ -61,8 +68,17 @@ pub trait Adapter: Send + Sync + 'static {
     /// Adapter name; must match `^[a-z0-9][a-z0-9-]{0,31}$`.
     fn name(&self) -> &'static str;
 
-    /// Declared capabilities (compat_type + MIME accept set).
+    /// Declared capabilities (`compat_type` + MIME accept set).
     fn capabilities(&self) -> Capabilities;
+
+    /// Contract version this adapter conforms to.
+    ///
+    /// New adapters return [`CURRENT_CONTRACT_VERSION`]. The default impl
+    /// does so; adapters frozen against an older trait surface override
+    /// this and are rejected at registry build by the core.
+    fn contract_version(&self) -> u32 {
+        CURRENT_CONTRACT_VERSION
+    }
 
     /// Convert a document.
     fn convert(
